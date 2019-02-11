@@ -1,0 +1,22 @@
+{
+  "name": "valentin_2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.3.1"
+  },
+  "dependencies": {
+    "node-sass": "^4.11.0"
+  },
+  "scripts": {
+    "build": "babel scripts/src -d scripts/dist",
+    "sass": "node-sass -w styles/src -o styles/dist --output-style compressed",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

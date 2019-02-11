@@ -1,0 +1,44 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="styles/dist/style.css">
+</head>
+
+<body>
+    <div id="wrapper">
+        <div id="start_page">
+            <p>User balance: <span id="balance"></span> gold</p>
+            <button id="open_modal">Buy</button>
+        </div>
+        <div id="modal" class="Modal">
+            <div class="Modal__wrap">
+                <div class="Modal__block">
+                    <h2>Order</h2>
+                    <img src="img/icons/cross.png" class="Modal__close close">
+                </div>
+                <div id="items" class="Modal__items"></div>
+                <p id="stock_info"></p>
+                <div class="Modal__block bolder">
+                    <p>Total</p>
+                    <span id="total"></span>
+                </div>
+                <div class="Modal__buy-buttons">
+                    <button class="close" type="button">Buy</button>
+                    <button id="cancel" class="close">Cancel</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script src="scripts/dist/data.js"></script>
+    <script src="scripts/dist/script.js"></script>
+</body>
+
+</html>

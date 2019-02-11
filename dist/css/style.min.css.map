@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,MAAM,AAAC,CACH,OAAO,CAAE,IAAI,CAChB",
+    "sources": [
+        "../../styles/src/style.scss"
+    ],
+    "names": [],
+    "file": "style.min.css"
+}
