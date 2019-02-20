@@ -5,22 +5,25 @@ document.getElementById("total").innerHTML = totalPrice + ' gold';
 var totalMoney = 37;
 document.getElementById("balance").innerHTML = totalMoney; //open modal on Buy button
 
-var buyButton = document.getElementById("open_modal");
-buyButton.addEventListener("click", function () {
+var openModal = document.getElementById("open_modal");
+openModal.addEventListener("click", function () {
   document.getElementById("modal").style.display = "flex";
-  buyButton.style.display = "none";
+  openModal.style.display = "none";
   document.getElementById("wrapper").style.background = "grey";
 }); //close modal on buy, cancel and x buttons
 
 document.querySelectorAll(".close").forEach(function (elem) {
   elem.addEventListener("click", function () {
     document.getElementById("modal").style.display = "none";
-    buyButton.style.display = "inline";
+    openModal.style.display = "inline";
     document.getElementById("wrapper").style.background = "transparent";
   });
 }); //cancel refresh page
 
 document.getElementById("cancel").addEventListener("click", function () {
+  location.reload();
+});
+document.getElementById("cross").addEventListener("click", function () {
   location.reload();
 });
 data.map(function (item) {
@@ -35,9 +38,11 @@ data.map(function (item) {
   var iconIncrement = document.createElement("I");
   var itemDecrement = document.createElement("BUTTON");
   var iconDecrement = document.createElement("I");
+  var buyButton = document.getElementById('buy');
+  var balanceError = document.getElementById('balance_info');
   itemInput.setAttribute("type", "number");
-  itemInput.setAttribute("min", 0);
-  itemInput.setAttribute("readonly", true);
+  itemInput.setAttribute("min", 0); // itemInput.setAttribute("readonly", true);
+
   itemDiv.className = "Modal__item";
   itemName.className = "Modal__name";
   inputDiv.className = "Modal__input";
@@ -114,6 +119,71 @@ data.map(function (item) {
 
     if (item.quantity > 0) {
       document.getElementById("stock_info").style.display = "none";
+    }
+
+    if (calculateMoney < 0) {
+      buyButton.disabled = true;
+      buyButton.style.background = "#ccc7c7";
+      balanceError.style.display = "block";
+      balanceError.innerHTML = "You have exceeded your available balance. Current balance is: " + calculateMoney + " gold";
+    } else {
+      buyButton.disabled = false;
+      buyButton.style.background = "#2a77b4";
+      balanceError.style.display = "none";
+    }
+  });
+  var referenceQuantity = item.quantity; //store value of input on typing
+
+  itemInput.addEventListener('input', function () {
+    if (itemInput.value < 0) {
+      itemInput.value = 0;
+    }
+
+    if (Math.ceil(itemInput.value) >= referenceQuantity) {
+      itemInput.value = referenceQuantity;
+      document.getElementById("stock_info").style.display = "block";
+      document.getElementById("stock_info").innerHTML = item.name + ' is out of stock';
+    } else {
+      document.getElementById("stock_info").style.display = "none";
+    }
+
+    itemInput.value = Math.ceil(itemInput.value);
+    item.quantity = referenceQuantity - itemInput.value; //calculates the subtotal for each item and adds them to the total
+
+    item.subtotal = itemInput.value * item.price;
+    document.getElementById("total").innerHTML = data.map(function (item) {
+      return item.subtotal;
+    }).reduce(function (prev, next) {
+      return prev + next;
+    }) + ' gold'; //calculates the remaining money
+
+    var calculateMoney = totalMoney - data.map(function (item) {
+      return item.subtotal;
+    }).reduce(function (prev, next) {
+      return prev + next;
+    });
+    document.getElementById("balance").innerHTML = calculateMoney; //disable/enable increment button on input
+
+    if (totalMoney - data.map(function (item) {
+      return item.subtotal;
+    }).reduce(function (prev, next) {
+      return prev + next;
+    }) >= item.price && item.quantity > 0) {
+      itemIncrement.disabled = false;
+    } else {
+      itemIncrement.disabled = true;
+    } //disable buy button if user balance negative
+
+
+    if (calculateMoney < 0) {
+      buyButton.disabled = true;
+      buyButton.style.background = "#ccc7c7";
+      balanceError.style.display = "block";
+      balanceError.innerHTML = "You have exceeded your available balance. Current balance is: " + calculateMoney + " gold";
+    } else {
+      buyButton.disabled = false;
+      buyButton.style.background = "#2a77b4";
+      balanceError.style.display = "none";
     }
   }); //Disable + buttons (all of them) if price is bigger than available gold
 
